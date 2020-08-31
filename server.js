@@ -11,12 +11,18 @@ const urlDatabase = {
 };
 
 app.get('/', (req, res) => {
-  res.render('');
+  res.render('hello');
 });
 
 app.get('/urls', (req, res) => {
   const templateVars = { urls: urlDatabase };
   res.render('urls_index', templateVars);
+});
+
+app.get('/urls/:shortURL', (req, res) => {
+  const { params } = req;
+  const templateVars = { shortURL: params.shortURL, longURL: params.longURL };
+  res.render('urls_show', templateVars);
 });
 
 app.listen(PORT, () => {
