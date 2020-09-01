@@ -1,7 +1,11 @@
 const express = require('express');
+const { generateRandSring } = require('./utils');
 
 const app = express();
 const PORT = 3000;
+
+// app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
 
@@ -10,13 +14,18 @@ const urlDatabase = {
   '9sm5xK': 'http://www.google.com',
 };
 
-app.get('/', (req, res) => {
-  res.render('hello');
-});
-
 app.get('/urls', (req, res) => {
   const templateVars = { urls: urlDatabase };
   res.render('urls_index', templateVars);
+});
+
+app.get('/urls/new', (req, res) => {
+  res.render('urls_new');
+});
+
+app.post('/urls', (req, res) => {
+  console.log(req.body);
+  res.send('ok');
 });
 
 app.get('/urls/:shortURL', (req, res) => {
