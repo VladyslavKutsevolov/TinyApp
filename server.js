@@ -1,6 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
-const { router, urlDatabase } = require('./routes/urls.routes');
+const { router: urlsRouter, urlDatabase } = require('./routes/urls.routes');
+const { router: loginRouter } = require('./routes/login.route');
+const { router: registerRoute } = require('./routes/register.route');
 const cookieParser = require('cookie-parser');
 
 const app = express();
@@ -14,22 +16,19 @@ app.use(morgan('dev'));
 // View engine
 app.set('view engine', 'ejs');
 // Routes
-app.use('/urls', router);
+app.use('/urls', urlsRouter);
+app.use('/login', loginRouter);
+app.use('/register', registerRoute);
 
 app.get('/', (req, res) => {
-  res.redirect('/urls');
-});
-
-app.post('/login', (req, res) => {
-  const { username } = req.body;
-  res.cookie('username', username);
-  res.redirect('/urls');
+  res.redirect('/login');
 });
 
 app.post('/logout', (req, res) => {
-  const { username } = req.cookies;
+  const { username, userId } = req.cookies;
   res.clearCookie('username', username);
-  res.redirect('/urls');
+  res.clearCookie('userId', userId);
+  res.redirect('/login');
 });
 
 app.get('/u/:shortURL', (req, res) => {

@@ -7,22 +7,22 @@
     </button>
     <div class="collapse navbar-collapse m-auto" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-item nav-link" href="/">My URLs</a>
+        <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
       </div>
     </div>
 
-    <% if(!username) { %>
-    <form class="form-inline my-2 my-lg-0" action="/login" method="POST" name="username">
-      <input class="form-control mr-sm-2" name="username" type="text" placeholder="Username">
-      <button class="btn btn-primary" type="submit">Login</button>
-    </form>
-    <% } else { %>
+    <% if(username) { %>
     <form class="form-inline my-2 my-lg-0" action="/logout" method="POST" name="username">
       <span class="mr-3">Welcome: <%= username %></span>
       <button class="btn btn-primary" type="submit">Logout</button>
     </form>
-    <% } %>
+    <% } else { %>
+    <div class="flex">
+      <a href="/login">Login</a> |
+      <a href="/register">Register</a>
+    </div>
+    <% }%>
     </div>
   </nav>
 </header>
