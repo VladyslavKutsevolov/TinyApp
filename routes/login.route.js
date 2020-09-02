@@ -5,7 +5,8 @@ const { findUser } = require('../utils');
 const router = Router();
 
 router.get('/', (req, res) => {
-  res.render('login');
+  const { username, userId } = req.cookies;
+  res.render('login', { userId, username });
 });
 
 router.post('/', (req, res) => {
@@ -17,11 +18,11 @@ router.post('/', (req, res) => {
   const user = findUser(email, userDB);
 
   if (!user) {
-    return res.status(400).send('Email or Password is incorrect!');
+    return res.status(403).send('Email or Password is incorrect!');
   }
 
-  if (user.password !== Number(password)) {
-    return res.status(400).send('Email or Password is incorrect!');
+  if (user.password !== password) {
+    return res.status(403).send('Email or Password is incorrect!');
   }
 
   res.cookie('userId', user.id);

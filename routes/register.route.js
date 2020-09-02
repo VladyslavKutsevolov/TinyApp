@@ -5,7 +5,8 @@ const { findUser, generateRandomString } = require('../utils');
 const router = Router();
 
 router.get('/', (req, res) => {
-  res.render('register');
+  const { username, userId } = req.cookies;
+  res.render('register', { userId, username });
 });
 
 router.post('/', (req, res) => {
@@ -27,8 +28,9 @@ router.post('/', (req, res) => {
     password,
     name,
   };
-
+  console.log(newUser);
   userDB[id] = newUser;
+
   res.redirect('/login');
 });
 

@@ -12,11 +12,17 @@
       </div>
     </div>
 
-
+    <% if(username) { %>
     <form class="form-inline my-2 my-lg-0" action="/logout" method="POST" name="username">
       <span class="mr-3">Welcome: <%= username %></span>
       <button class="btn btn-primary" type="submit">Logout</button>
     </form>
+    <% } else { %>
+    <div class="flex">
+      <a href="/login">Login</a> |
+      <a href="/register">Register</a>
+    </div>
+    <% }%>
     </div>
   </nav>
 </header>
