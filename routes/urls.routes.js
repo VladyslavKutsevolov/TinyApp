@@ -10,15 +10,15 @@ let urlDatabase = {
 
 // All routes starts with /urls/...
 router.get('/', (req, res) => {
-  const { username } = req.cookies;
-  const templateVars = { urls: urlDatabase, username };
+  const { username, userId } = req.cookies;
+  const templateVars = { urls: urlDatabase, username, userId };
 
   res.render('urls_index', templateVars);
 });
 
 router.get('/new', (req, res) => {
-  const { username } = req.cookies;
-  res.render('urls_new', { username });
+  const { username, userId } = req.cookies;
+  res.render('urls_new', { username, userId });
 });
 
 router.post('/', (req, res) => {
@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = longURL;
 
-  res.redirect(`/urls`);
+  res.redirect('/urls');
 });
 
 router.post('/:shortURL', (req, res) => {
@@ -50,10 +50,10 @@ router.post('/:shortURL/delete', (req, res) => {
 router.get('/:shortURL', (req, res) => {
   const {
     params: { shortURL },
-    cookies: { username },
+    cookies: { username, userId },
   } = req;
   const longURL = urlDatabase[shortURL];
-  const templateVars = { shortURL, longURL, username };
+  const templateVars = { shortURL, longURL, username, userId };
 
   res.render('urls_show', templateVars);
 });
