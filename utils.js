@@ -2,7 +2,7 @@ const generateRandomString = () => {
   return Math.random().toString(36).substring(2, 8);
 };
 
-const findUser = (email, db) => {
+const findUserByEmail = (email, db) => {
   for (const userId in db) {
     const user = db[userId];
     if (user.email === email) {
@@ -12,7 +12,7 @@ const findUser = (email, db) => {
   return null;
 };
 
-const filterUserById = (userId, db) => {
+const filterUsersById = (userId, db) => {
   let listOfURLs = {};
   for (const id in db) {
     const user = db[id];
@@ -37,8 +37,8 @@ const isMatch = (userId, id) => {
 
 module.exports = {
   generateRandomString,
-  findUser,
+  findUserByEmail,
   isAuthenticated,
   isMatch,
-  filterUserById,
+  filterUsersById,
 };
