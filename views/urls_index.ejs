@@ -20,8 +20,10 @@
         <tr>
           <th style="width: 20%;" scope="col">Short URL</th>
           <th style="width: 60%;" scope="col">Long URL</th>
+          <% if(userId) { %>
           <th style="width: 5%;" scope="col">Edit</th>
           <th style="width: 5%;" scope="col">Delete</th>
+          <% } %>
         </tr>
       </thead>
       <tbody>
@@ -30,7 +32,8 @@
           <td> <a href="/urls/<%= url %>">
               <%= url %></td>
           </a>
-          <td><%= urls[url] %></td>
+          <td><%= urls[url].longURL %></td>
+          <% if(userId) { %>
           <td>
             <form action="/urls/<%= url %>" method="GET">
               <button class="btn btn-primary" type="submit">Edit</button>
@@ -41,6 +44,7 @@
               <button class="btn btn-danger" type="submit">Delete</button>
             </form>
           </td>
+          <% } %>
         </tr>
         <% } %>
       </tbody>
