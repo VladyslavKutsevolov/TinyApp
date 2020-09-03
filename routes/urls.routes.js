@@ -17,12 +17,14 @@ router.get('/', isAuthenticated, (req, res) => {
 
   res.render('urls_index', templateVars);
 });
+
 // /urls/new
 router.get('/new', isAuthenticated, (req, res) => {
   const { username, userId } = req.session.user;
 
   res.render('urls_new', { username, userId });
 });
+
 // /urls
 router.post('/', (req, res) => {
   const {
@@ -37,8 +39,9 @@ router.post('/', (req, res) => {
 
   res.redirect('/urls');
 });
+
 // /urls/:shortURL
-router.post('/:shortURL', (req, res) => {
+router.put('/:shortURL', isAuthenticated, (req, res) => {
   const {
     params: { shortURL },
     body: { longURL },
@@ -51,8 +54,9 @@ router.post('/:shortURL', (req, res) => {
 
   res.redirect('/urls');
 });
-// /urls/:shortURL/delete
-router.post('/:shortURL/delete', isAuthenticated, (req, res) => {
+
+// /urls/:shortURL
+router.delete('/:shortURL', isAuthenticated, (req, res) => {
   const {
     params: { shortURL },
     session: {
@@ -69,6 +73,7 @@ router.post('/:shortURL/delete', isAuthenticated, (req, res) => {
 
   res.redirect('/urls');
 });
+
 // /urls/:shortURL
 router.get('/:shortURL', (req, res) => {
   const {

@@ -35,10 +35,19 @@ const isMatch = (userId, id) => {
   return userId === id;
 };
 
+const getterForOverride = (req, res) => {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    const method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+};
+
 module.exports = {
   generateRandomString,
   findUserByEmail,
   isAuthenticated,
   isMatch,
   filterUsersById,
+  getterForOverride,
 };

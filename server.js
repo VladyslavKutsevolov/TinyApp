@@ -4,6 +4,8 @@ const { router: urlsRouter, urlDatabase } = require('./routes/urls.routes');
 const { router: loginRouter } = require('./routes/login.route');
 const { router: registerRoute } = require('./routes/register.route');
 const cookieSession = require('cookie-session');
+const methodOverride = require('method-override');
+const { getterForOverride } = require('./utils');
 
 const app = express();
 const PORT = 3000;
@@ -11,6 +13,7 @@ const PORT = 3000;
 //Middleware
 app.use(express.static('views'));
 app.use(express.json());
+app.use(methodOverride('_method'));
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cookieSession({
