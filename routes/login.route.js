@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const userDB = require('../db/user.db');
-const { findUser } = require('../utils');
+const { findUserByEmail } = require('../utils');
 const bcrypt = require('bcryptjs');
 
 const router = Router();
@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
     return res.status(400).send('Email and Password required!');
   }
 
-  const user = findUser(email, userDB);
+  const user = findUserByEmail(email, userDB);
   if (!user) {
     return res.status(403).send('Email or Password is incorrect!');
   }

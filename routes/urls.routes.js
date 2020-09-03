@@ -3,7 +3,7 @@ const {
   generateRandomString,
   isAuthenticated,
   isMatch,
-  filterUserById,
+  filterUsersById,
 } = require('../utils');
 const urlDatabase = require('../db/urls.db');
 
@@ -12,7 +12,7 @@ const router = Router();
 // /urls
 router.get('/', isAuthenticated, (req, res) => {
   const { username, userId } = req.session.user;
-  const filteredList = filterUserById(userId, urlDatabase);
+  const filteredList = filterUsersById(userId, urlDatabase);
   const templateVars = { urls: filteredList, username, userId };
 
   res.render('urls_index', templateVars);
@@ -25,8 +25,12 @@ router.get('/new', isAuthenticated, (req, res) => {
 });
 // /urls
 router.post('/', (req, res) => {
-  const { longURL } = req.body;
-  const { userId } = req.session.user;
+  const {
+    body: { longURL },
+    session: {
+      user: { userId },
+    },
+  } = req;
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = { longURL, userId };
   console.log(urlDatabase);

@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const userDB = require('../db/user.db');
 const bcrypt = require('bcryptjs');
-const { findUser, generateRandomString } = require('../utils');
+const { findUserByEmail, generateRandomString } = require('../utils');
 
 const router = Router();
 
@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
     return res.status(400).send('Email and Password required!');
   }
 
-  const user = findUser(email, userDB);
+  const user = findUserByEmail(email, userDB);
 
   if (user) {
     return res.status(400).send('Email already exist');
