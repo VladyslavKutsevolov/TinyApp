@@ -3,15 +3,21 @@ const morgan = require('morgan');
 const { router: urlsRouter, urlDatabase } = require('./routes/urls.routes');
 const { router: loginRouter } = require('./routes/login.route');
 const { router: registerRoute } = require('./routes/register.route');
-const cookieParser = require('cookie-parser');
+const cookieSession = require('cookie-session');
 
 const app = express();
 const PORT = 3000;
 
 //Middleware
+app.use(express.static('views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(
+  cookieSession({
+    name: 'session',
+    keys: ['secret', 'key'],
+  })
+);
 app.use(morgan('dev'));
 // View engine
 app.set('view engine', 'ejs');
@@ -25,9 +31,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/logout', (req, res) => {
-  const { username, userId } = req.cookies;
-  res.clearCookie('username', username);
-  res.clearCookie('userId', userId);
+  req.session.user = '';
   res.redirect('/login');
 });
 

@@ -24,15 +24,15 @@ const filterUserById = (userId, db) => {
 };
 
 const isAuthenticated = (req, res, next) => {
-  if (req.cookies.userId) {
+  if (req.session.user.userId) {
     return next();
   } else {
     res.redirect('/login');
   }
 };
 
-const isMatch = (user1, user2) => {
-  return user1 === user2;
+const isMatch = (userId, id) => {
+  return userId === id;
 };
 
 module.exports = {

@@ -1,21 +1,23 @@
+const bcrypt = require('bcryptjs');
+
 const userDB = {
   asd: {
     id: 'asd',
     name: 'Vlad',
     email: 'Vlad@a.com',
-    password: '123',
+    password: bcrypt.hashSync('123', 10),
   },
   qwe: {
     id: 'qwe',
     name: 'James',
     email: 'James@a.com',
-    password: '1234',
+    password: bcrypt.hashSync('222', 10),
   },
   qaz: {
     id: 'qaz',
     name: 'Bond',
     email: 'Bond@a.com',
-    password: '321',
+    password: bcrypt.hashSync('111', 10),
   },
 };
 

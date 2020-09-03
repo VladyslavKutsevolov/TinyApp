@@ -5,13 +5,13 @@ const {
   isMatch,
   filterUserById,
 } = require('../utils');
-const urlDatabase = require('../urls.db');
+const urlDatabase = require('../db/urls.db');
 
 const router = Router();
 
 // /urls
 router.get('/', isAuthenticated, (req, res) => {
-  const { username, userId } = req.cookies;
+  const { username, userId } = req.session.user;
   const filteredList = filterUserById(userId, urlDatabase);
   const templateVars = { urls: filteredList, username, userId };
 
@@ -19,14 +19,14 @@ router.get('/', isAuthenticated, (req, res) => {
 });
 // /urls/new
 router.get('/new', isAuthenticated, (req, res) => {
-  const { username, userId } = req.cookies;
+  const { username, userId } = req.session.user;
 
   res.render('urls_new', { username, userId });
 });
 // /urls
 router.post('/', (req, res) => {
   const { longURL } = req.body;
-  const { userId } = req.cookies;
+  const { userId } = req.session.user;
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = { longURL, userId };
   console.log(urlDatabase);
@@ -38,7 +38,9 @@ router.post('/:shortURL', (req, res) => {
   const {
     params: { shortURL },
     body: { longURL },
-    cookies: { userId },
+    session: {
+      user: { userId },
+    },
   } = req;
 
   urlDatabase[shortURL] = { longURL, userId };
@@ -49,7 +51,9 @@ router.post('/:shortURL', (req, res) => {
 router.post('/:shortURL/delete', isAuthenticated, (req, res) => {
   const {
     params: { shortURL },
-    cookies: { userId },
+    session: {
+      user: { userId },
+    },
   } = req;
   const user = urlDatabase[shortURL].userId;
 
@@ -65,7 +69,9 @@ router.post('/:shortURL/delete', isAuthenticated, (req, res) => {
 router.get('/:shortURL', (req, res) => {
   const {
     params: { shortURL },
-    cookies: { username, userId },
+    session: {
+      user: { username, userId },
+    },
   } = req;
 
   const user = urlDatabase[shortURL].userId;

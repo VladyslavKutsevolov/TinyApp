@@ -1,11 +1,12 @@
 const { Router } = require('express');
-const userDB = require('../user.db');
+const userDB = require('../db/user.db');
 const { findUser } = require('../utils');
+const bcrypt = require('bcryptjs');
 
 const router = Router();
 
 router.get('/', (req, res) => {
-  const { username, userId } = req.cookies;
+  const { username, userId } = req.session.user;
   res.render('login', { userId, username });
 });
 
@@ -16,18 +17,25 @@ router.post('/', (req, res) => {
   }
 
   const user = findUser(email, userDB);
-
   if (!user) {
     return res.status(403).send('Email or Password is incorrect!');
   }
+  bcrypt.compare(password, user.password, (err, isMatch) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
 
-  if (user.password !== password) {
-    return res.status(403).send('Email or Password is incorrect!');
-  }
-
-  res.cookie('userId', user.id);
-  res.cookie('username', user.name);
-  res.redirect('/urls');
+    if (isMatch) {
+      req.session.user = {
+        username: user.name,
+        userId: user.id,
+      };
+      res.redirect('/urls');
+    } else {
+      return res.status(403).send('Email or Password is incorrect!');
+    }
+  });
 });
 
 module.exports = { router };
