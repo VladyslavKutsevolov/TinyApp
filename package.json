@@ -1,7 +1,7 @@
 {
   "name": "tinyapp",
   "version": "1.0.0",
-  "description": "",
+  "description": "TinyApp is a full stack web application built with Node and Express that allows users to shorten long URLs (à la bit.ly).",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/VladyslavKutsevolov/TinyApp.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Vladyslav Kutsevolov",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/VladyslavKutsevolov/TinyApp/issues"
@@ -24,6 +24,7 @@
     "cookie-session": "^1.4.0",
     "ejs": "^3.1.5",
     "express": "^4.17.1",
+    "method-override": "^3.0.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
