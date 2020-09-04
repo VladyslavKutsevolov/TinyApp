@@ -34,8 +34,7 @@ router.post('/', (req, res) => {
     },
   } = req;
   const shortURL = generateRandomString();
-  urlDatabase[shortURL] = { longURL, userId };
-  console.log(urlDatabase);
+  urlDatabase[shortURL] = { longURL, userId, clickCount: [] };
 
   res.redirect('/urls');
 });
@@ -50,7 +49,7 @@ router.put('/:shortURL', isAuthenticated, (req, res) => {
     },
   } = req;
 
-  urlDatabase[shortURL] = { longURL, userId };
+  urlDatabase[shortURL] = { longURL, userId, clickCount: [] };
 
   res.redirect('/urls');
 });
@@ -90,7 +89,17 @@ router.get('/:shortURL', (req, res) => {
   }
 
   const longURL = urlDatabase[shortURL].longURL;
-  const templateVars = { shortURL, longURL, username, userId };
+  const clicks = urlDatabase[shortURL].clickCount.length;
+  const uniqueClicks = [...new Set(urlDatabase[shortURL].clickCount)].length;
+
+  const templateVars = {
+    shortURL,
+    longURL,
+    username,
+    userId,
+    clicks,
+    uniqueClicks,
+  };
 
   res.render('urls_show', templateVars);
 });

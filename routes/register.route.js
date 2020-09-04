@@ -5,12 +5,13 @@ const { findUserByEmail, generateRandomString } = require('../utils');
 
 const router = Router();
 
+// /register
 router.get('/', (req, res) => {
-  console.log('register', req.session.user);
   const { username, userId } = req.session.user;
   res.render('register', { userId, username });
 });
 
+// /register
 router.post('/', (req, res) => {
   const { email, password, name } = req.body;
   if (!email || !password) {
