@@ -14,8 +14,8 @@ router.get('/', (req, res) => {
 // /register
 router.post('/', (req, res) => {
   const { email, password, name } = req.body;
-  if (!email || !password) {
-    return res.status(400).send('Email and Password required!');
+  if (!email || !password || !name) {
+    return res.status(400).send('Email, Password and Name are required!');
   }
 
   const user = findUserByEmail(email, userDB);
