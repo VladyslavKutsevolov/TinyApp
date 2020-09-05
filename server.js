@@ -21,6 +21,7 @@ app.use(
     keys: ['secret', 'key'],
   })
 );
+// create userid if not logged in
 app.use((req, res, next) => {
   if (!req.session.user) {
     req.session.user = {
