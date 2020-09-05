@@ -26,13 +26,12 @@ const filterUsersById = (userId, db) => {
 };
 
 const checkUserIDForAuthirization = (userId, db) => {
-  for (const usr in db) {
-    return db[usr].id === userId ? true : false;
-  }
+  return Object.values(db).some((el) => el.id === userId);
 };
 
 const isAuthenticated = (req, res, next) => {
   const { userId } = req.session.user;
+
   if (checkUserIDForAuthirization(userId, userDB)) {
     return next();
   } else {
