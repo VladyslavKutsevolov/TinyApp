@@ -1,3 +1,5 @@
+const userDB = require('./db/user.db');
+
 const generateRandomString = () => {
   return Math.random().toString(36).substring(2, 8);
 };
@@ -23,8 +25,15 @@ const filterUsersById = (userId, db) => {
   return listOfURLs;
 };
 
+const checkUserIDForAuthirization = (userId, db) => {
+  for (const usr in db) {
+    return db[usr].id === userId ? true : false;
+  }
+};
+
 const isAuthenticated = (req, res, next) => {
-  if (req.session.user.userId) {
+  const { userId } = req.session.user;
+  if (checkUserIDForAuthirization(userId, userDB)) {
     return next();
   } else {
     res.redirect('/login');
